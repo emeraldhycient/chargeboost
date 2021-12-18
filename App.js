@@ -6,6 +6,7 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
 import Home from "./screens/Home/Home";
 import History from "./screens/History/History";
+import Profile from "./screens/Profile/Profile";
 
 const Bottomtab = createMaterialBottomTabNavigator();
 
@@ -26,7 +27,7 @@ export default function App() {
               tabBarLabel: "Home",
               tabBarColor: "#fafafa",
               tabBarIcon: ({ color }) => (
-                <FontAwesome5 name="home" color={color} size={25} />
+                <FontAwesome5 name="home" color={color} size={20} />
               ),
             }}
           />
@@ -37,18 +38,18 @@ export default function App() {
               tabBarLabel: "History",
               tabBarColor: "#fafafa",
               tabBarIcon: ({ color }) => (
-                <FontAwesome5 name="history" color={color} size={25} />
+                <FontAwesome5 name="history" color={color} size={20} />
               ),
             }}
           />
           <Bottomtab.Screen
             name="Profile"
-            component={Home}
+            component={Profile}
             options={{
               tabBarLabel: "Profile",
               tabBarColor: "#fafafa",
               tabBarIcon: ({ color }) => (
-                <FontAwesome5 name="user" color={color} size={25} />
+                <FontAwesome5 name="user" color={color} size={20} />
               ),
             }}
           />
