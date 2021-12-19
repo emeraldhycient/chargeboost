@@ -7,12 +7,17 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Home from "./screens/Home/Home";
 import History from "./screens/History/History";
 import Profile from "./screens/Profile/Profile";
+import Login from "./screens/Auths/Login";
+import Register from "./screens/Auths/Register";
 
 const Bottomtab = createMaterialBottomTabNavigator();
 
 export default function App() {
   return (
     <PaperProvider>
+      <Register/>
+      {/*
+      <Login/>
       <NavigationContainer>
         <Bottomtab.Navigator
           activeColor="green"
@@ -54,7 +59,7 @@ export default function App() {
             }}
           />
         </Bottomtab.Navigator>
-      </NavigationContainer>
+          </NavigationContainer>*/}
     </PaperProvider>
   );
 }

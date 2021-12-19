@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
   card_holder: {
     backgroundColor: "#B1D0E0",
     borderTopLeftRadius:20,
-    borderTopRightRadius:20
+    borderTopRightRadius:20,
+    marginBottom:200
   },
 });
