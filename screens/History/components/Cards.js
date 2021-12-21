@@ -1,18 +1,17 @@
 import React from "react";
 import { StyleSheet, Image, View } from "react-native";
 import { Text,Button } from "react-native-paper";
-import HiOutlineLocationMarker from  "react-native-vector-icons"
 
-const Cards = ({ data, index }) => {
+const Cards = ({ data }) => {
   return (
-    <View style={styles.card} key={index}>
+    <View style={styles.card}>
       <View style={styles.card_body}>
         <View style={{paddingLeft:15,paddingTop:13,paddingBottom:10}}>
-        <Text style={{ color: "#000" ,padding:4}}>Charged for:</Text>
-        <Text style={{ color: "#000",fontSize:20,fontWeight:"600",padding:5 }}>{data.charge_time}</Text>
+        <Text style={{ color: "grey" ,padding:4}}>Charged for:</Text>
+        <Text style={{ color: "#000",fontSize:20,fontWeight:"bold",padding:5 }}>{data.charge_time}</Text>
         <View style={{flexDirection:"row",alignItems:"center"}}>
         <Image style={styles.marker} source={require("../../../assets/address/ic_other.png")} />
-        <Text style={{ color: "#000",padding:4 }}>{data.location}</Text>
+        <Text style={{ color: "grey",padding:4 }}>{data.location}</Text>
         </View>
         </View>
         <Image source={data.image} resizeMode="contain" style={styles.image} />
@@ -28,11 +27,11 @@ export default Cards;
 
 const styles = StyleSheet.create({
   card: {
+    borderRadius:20,
     height: 150,
-    width: "95%",
-    borderRadius:15,
-    marginLeft: "2.5%",
-    marginRight: "2.5%",
+    width: "90%",
+    marginLeft: "5%",
+    marginRight: "5%",
     marginTop: 20,
     marginBottom: 10,
   },
@@ -53,8 +52,8 @@ const styles = StyleSheet.create({
     width: "40%",
   },
   marker:{
-      height:20,
-      width:20,
+      height:18,
+      width:18,
       marginTop:5
   }
 });

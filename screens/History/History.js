@@ -60,7 +60,7 @@ const History = () => {
           <View style={styles.card_holder}>
               {
                   datas.map((item,i)=>(
-                      <Cards data={item} index={i} />
+                      <Cards data={item} key={i} />
                   ))
               }
            

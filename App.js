@@ -1,65 +1,41 @@
-import React from "react";
+import "react-native-gesture-handler";
+import React,{useState,useEffect} from "react";
 import { Provider as PaperProvider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
-import Home from "./screens/Home/Home";
-import History from "./screens/History/History";
-import Profile from "./screens/Profile/Profile";
-import Login from "./screens/Auths/Login";
-import Register from "./screens/Auths/Register";
+import BottomScreen from "./tabs/BottomScreen";
+import StackScreen from "./Stacks/Auth";
 
-const Bottomtab = createMaterialBottomTabNavigator();
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function App() {
-  return (
+ 
+const [islogged, setislogged] = useState(false)
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('phone')
+      if(value !== null) {
+        setislogged(true)
+      }
+    } catch(e) {
+      setislogged(false)
+    }
+  }
+
+  useEffect(() => {
+          getData()
+         
+  }, [islogged])
+
+    return (
     <PaperProvider>
-      <Register/>
-      {/*
-      <Login/>
       <NavigationContainer>
-        <Bottomtab.Navigator
-          activeColor="green"
-          inactiveColor="grey"
-          labeled={false}
-          shifting={true}
-        >
-          <Bottomtab.Screen
-            name="home"
-            component={Home}
-            options={{
-              tabBarLabel: "Home",
-              tabBarColor: "#fafafa",
-              tabBarIcon: ({ color }) => (
-                <FontAwesome5 name="home" color={color} size={20} />
-              ),
-            }}
-          />
-          <Bottomtab.Screen
-            name="History"
-            component={History}
-            options={{
-              tabBarLabel: "History",
-              tabBarColor: "#fafafa",
-              tabBarIcon: ({ color }) => (
-                <FontAwesome5 name="history" color={color} size={20} />
-              ),
-            }}
-          />
-          <Bottomtab.Screen
-            name="Profile"
-            component={Profile}
-            options={{
-              tabBarLabel: "Profile",
-              tabBarColor: "#fafafa",
-              tabBarIcon: ({ color }) => (
-                <FontAwesome5 name="user" color={color} size={20} />
-              ),
-            }}
-          />
-        </Bottomtab.Navigator>
-          </NavigationContainer>*/}
+        {
+          islogged ? <BottomScreen/> :
+          <StackScreen/>
+        }
+      </NavigationContainer>
     </PaperProvider>
   );
 }

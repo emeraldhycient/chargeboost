@@ -1,21 +1,50 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
   SafeAreaView,
-  ScrollView,
   Image,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import { Text, TextInput, Button } from "react-native-paper";
 
-const Login = () => {
+import axios from 'axios'
 
-    const [phone, setphone] = useState('')
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-    const enterApp = ()=>{
-        alert(phone)
+
+const Login = ({ navigation }) => {
+  const [phone, setphone] = useState('');
+
+  const storeData = async (key,value) => {
+    try {
+      await AsyncStorage.setItem(key, value)
+    } catch (e) {
+      console.log(e);
     }
+  }
+
+
+  const enterApp = ()=>{
+    const formdata = new FormData();
+
+    formdata.append("phone",phone)
+
+    axios.post('https://chargeboost.cedarcourier.com/auth/login.php',formdata)
+    .then(res=>{
+      if(res.data.status === "success"){
+        alert(res.data.message)
+        storeData('phone',phone)
+        storeData('fullname',res.data.data.fullname)
+        storeData('email',res.data.data.email)
+        navigation.push('main')
+      }else{
+        alert(res.data.message);
+      }
+    })
+    .catch(err=>{alert(err.response.data.message);})
+  }
 
   return (
     <SafeAreaView>
@@ -30,17 +59,25 @@ const Login = () => {
           paddingTop: 40,
         }}
       >
-        <Text style={{color:'#39A388'}}>Sign In Now</Text>
+        <TouchableOpacity onPress={e=> navigation.push('register')}>
+          <Text style={{ color: "#39A388" }}>Sign In Now</Text>
+        </TouchableOpacity>
       </View>
       <View style={{ marginTop: 80, paddingLeft: 10, paddingRight: 10 }}>
         <TextInput
           label="Phone Number"
           placeholder="Enter Phone Number"
           style={styles.input_box}
-          onChangeText={text=>setphone(text)}
+          onChangeText={(text) => setphone(text)}
           left={<TextInput.Icon name="phone" />}
         />
-        <Button mode="contained" dark style={styles.button_box} color="#39A388" onPress={e=>enterApp()}>
+        <Button
+          mode="contained"
+          dark
+          style={styles.button_box}
+          color="#39A388"
+          onPress={(e) => enterApp()}
+        >
           Continue
         </Button>
       </View>
@@ -51,7 +88,7 @@ const Login = () => {
           marginTop: 25,
         }}
       >
-        <Text style={{color:'#cacaca'}}>or continue with</Text>
+        <Text style={{ color: "#cacaca" }}>or continue with</Text>
       </View>
       <View style={styles.external_auth}>
         <View style={styles.external_auth_card}>
@@ -68,7 +105,7 @@ const Login = () => {
             source={require("../../assets/ic_google.png")}
           />
           <Text style={styles.external_auth_text}>Google</Text>
-        </View>  
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -112,13 +149,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   external_auth_text: {
-    fontSize:18,
-    fontWeight:'600',
-    color:"#fafafa"
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#fafafa",
   },
   marker: {
-    height: 20,
-    width: 20,
+    height: 18,
+    width: 18,
     marginTop: 5,
     marginRight: 7,
   },
