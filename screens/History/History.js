@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, SafeAreaView, ScrollView } from "react-native";
+import { StyleSheet, View, SafeAreaView, ScrollView, Dimensions } from "react-native";
 import { Text } from "react-native-paper";
 import Cards from "./components/Cards";
 import car1 from "../../assets/Vehicle/mycar1.png"
@@ -59,11 +59,12 @@ const History = () => {
         <ScrollView>
           <View style={styles.card_holder}>
               {
-                  datas.map((item,i)=>(
+                /*  datas.map((item,i)=>(
                       <Cards data={item} key={i} />
-                  ))
+                  ))*/
+                  <Text style={{color:'grey',fontSize:22}}>No Booking history found !</Text>
               }
-           
+            
           </View>
         </ScrollView>
       </View>
@@ -78,6 +79,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#B1D0E0",
     borderTopLeftRadius:20,
     borderTopRightRadius:20,
-    marginBottom:200
+    marginBottom:200,
+    height:Dimensions.get('window').height -100,
+    padding:10,
+    justifyContent:'center',
+    alignItems:'center'
   },
 });

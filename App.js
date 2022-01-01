@@ -11,28 +11,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
  
-const [islogged, setislogged] = useState(false)
-  const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('phone')
-      if(value !== null) {
-        setislogged(true)
-      }
-    } catch(e) {
-      setislogged(false)
-    }
-  }
 
-  useEffect(() => {
-          getData()
-         
-  }, [islogged])
+
+
 
     return (
     <PaperProvider>
       <NavigationContainer>
         {
-          islogged ? <BottomScreen/> :
           <StackScreen/>
         }
       </NavigationContainer>

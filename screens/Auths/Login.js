@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -9,42 +9,65 @@ import {
 } from "react-native";
 import { Text, TextInput, Button } from "react-native-paper";
 
-import axios from 'axios'
+import axios from "axios";
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = ({ navigation }) => {
-  const [phone, setphone] = useState('');
+  const [phone, setphone] = useState("");
 
-  const storeData = async (key,value) => {
+  const storeData = async (key, value) => {
     try {
-      await AsyncStorage.setItem(key, value)
+      await AsyncStorage.setItem(key, value);
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
+  const [islogged, setislogged] = useState(false);
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("phone");
+      if (value !== null) {
+        setislogged(true);
+      }
+    } catch (e) {
+      setislogged(false);
+      console.log(e);
+    }
+  };
 
-  const enterApp = ()=>{
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    islogged ? navigation.push("main") : null;
+  }, [islogged]);
+
+  const enterApp = () => {
     const formdata = new FormData();
 
-    formdata.append("phone",phone)
+    formdata.append("phone", phone);
 
-    axios.post('https://chargeboost.cedarcourier.com/auth/login.php',formdata)
-    .then(res=>{
-      if(res.data.status === "success"){
-        alert(res.data.message)
-        storeData('phone',phone)
-        storeData('fullname',res.data.data.fullname)
-        storeData('email',res.data.data.email)
-        navigation.push('main')
-      }else{
-        alert(res.data.message);
-      }
-    })
-    .catch(err=>{alert(err.response.data.message);})
-  }
+    axios
+      .post("https://chargeboost.cedarcourier.com/auth/login.php", formdata)
+      .then((res) => {
+        if (res.data.status === "success") {
+          alert(res.data.message);
+          setislogged(true);
+          storeData("phone", phone);
+          storeData("fullname", res.data.data.fullname);
+          storeData("email", res.data.data.email);
+          navigation.push("main");
+        } else {
+          alert(res.data.message);
+        }
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+      });
+  };
 
   return (
     <SafeAreaView>
@@ -59,7 +82,7 @@ const Login = ({ navigation }) => {
           paddingTop: 40,
         }}
       >
-        <TouchableOpacity onPress={e=> navigation.push('register')}>
+        <TouchableOpacity onPress={(e) => navigation.push("register")}>
           <Text style={{ color: "#39A388" }}>Sign In Now</Text>
         </TouchableOpacity>
       </View>
